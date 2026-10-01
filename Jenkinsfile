@@ -4,19 +4,24 @@ pipeline {
     stages {
 
         stage('Build') {
-            steps {
-                echo 'Building Expense Tracker...'
-                sh 'npm --version'
-                sh 'node --version'
-            }
-        }
+    steps {
+        echo 'Building Expense Tracker...'
 
-        stage('Test') {
-            steps {
-                echo 'Running automated tests...'
-                sh 'cd server && npm test'
-            }
-        }
+        sh 'node --version'
+        sh 'npm --version'
+
+        sh 'cd server && npm ci'
+        sh 'cd client && npm ci'
+    }
+}
+
+stage('Test') {
+    steps {
+        echo 'Running automated tests...'
+
+        sh 'cd server && npm test'
+    }
+}
 
         stage('Code Quality') {
             steps {
