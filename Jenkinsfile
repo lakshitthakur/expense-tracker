@@ -24,10 +24,18 @@ stage('Test') {
 }
 
         stage('Code Quality') {
-            steps {
-                echo 'Running SonarQube code quality analysis...'
+    steps {
+        echo 'Running SonarQube code quality analysis...'
+
+        script {
+            def scannerHome = tool 'SonarScanner'
+
+            withSonarQubeEnv('SonarQube') {
+                sh "${scannerHome}/bin/sonar-scanner"
             }
         }
+    }
+}
 
         stage('Security') {
             steps {
